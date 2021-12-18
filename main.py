@@ -41,7 +41,7 @@ def getEditProduto(id):
         preco = request.form.get('preco')
         unidade_medida = request.form.get('unidade_medida')
         codigo_barras = request.form.get('codigo_barras')
-        conexao_db.editar_Produto(id,descricao,preco,unidade_medida,codigo_barras)
+        conexao_db.editar_Produto(id,descricao,float(preco),unidade_medida,codigo_barras)
         return make_response({}, 201)
     else:
         return make_response({}, 404)
@@ -53,9 +53,8 @@ def getFornecedores():
     fornecedores = [Fornecedor.toJson() for Fornecedor in fornecedores]
     return json.dumps(fornecedores)
 
-@app.route('/fornecedores/add/', methods=['POST'])
+@app.route('/fornecedor/add/', methods=['POST'])
 def new_fornecedor():
-
     if request.method == 'POST':
         razao_social = request.form.get('razao_social')
         nome_fantasia = request.form.get('nome_fantasia')
@@ -70,6 +69,8 @@ def new_fornecedor():
         email = request.form.get('email')
 
         conexao_db.novo_Fornecedor(razao_social, nome_fantasia, cnpj, inscricao_estadual, logradouro, bairro, municipio, estado, cep, telefone, email)
+        return make_response({}, 201)
+    return make_response({}, 404)
 
 
 @app.route('/fornecedores/<int:id>/', methods=['GET', 'POST'])
@@ -89,7 +90,10 @@ def getFornecedor(id):
         telefone = request.form.get('telefone')
         email = request.form.get('email')
 
-        conexao_db.editar_Fornecedor(id,razao_social, nome_fantasia, cnpj, inscricao_estadual, logradouro, bairro, municipio, estado, cep, telefone, email)
+        if (conexao_db.editar_Fornecedor(id,razao_social, nome_fantasia, cnpj, inscricao_estadual, logradouro, bairro, municipio, estado, cep, telefone, email)):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 @app.route('/clientes/')
 def getClientes():
@@ -112,8 +116,11 @@ def new_cliente():
         telefone = request.form.get('telefone')
         email = request.form.get('email')
 
-        conexao_db.novo_Cliente(nome, cpf, logradouro, bairro, municipio,
-                                   estado, cep, telefone, email)
+        if (conexao_db.novo_Cliente(nome, cpf, logradouro, bairro, municipio,estado, cep, telefone, email)):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
+
 
 
 @app.route('/clientes/<int:id>/', methods=['GET', 'POST'])
@@ -131,7 +138,10 @@ def getEditCliente(id):
         telefone = request.form.get('telefone')
         email = request.form.get('email')
 
-        conexao_db.editar_Cliente(id ,nome, cpf, logradouro, bairro, municipio,estado, cep, telefone, email)
+        if conexao_db.editar_Cliente(id ,nome, cpf, logradouro, bairro, municipio,estado, cep, telefone, email):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 
 @app.route('/estoques/')
@@ -144,7 +154,10 @@ def getEstoques():
 def new_estoque():
     if request.method == 'POST':
         descricao = request.form.get('descricao')
-        conexao_db.novo_estoque(descricao)
+        if conexao_db.novo_estoque(descricao):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 @app.route('/estoque/<int:id>/', methods=['GET', 'POST'])
 def get_Estoque(id):
@@ -175,7 +188,10 @@ def new_movimentacao_estoque():
         tipo = request.form.get('tipo')
         quantidade = request.form.get('quantidade')
 
-        conexao_db.nova_movimentacao_estoque(id_estoque, id_produto, tipo, quantidade, origem)
+        if conexao_db.nova_movimentacao_estoque(id_estoque, id_produto, tipo, quantidade, origem):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 
 @app.route('/estoque/movimentacao/<int:id>/estornar/', methods=['POST'])
@@ -183,7 +199,9 @@ def estornarMovimentoEstoque(id):
     if request.method == 'POST':
         confirmar = request.form.get('confirmar')
         if (confirmar=='Sim'):
-            conexao_db.estornar_movimentacao_estoque(id)
+            if conexao_db.estornar_movimentacao_estoque(id):
+                return make_response({}, 201)
+        return make_response({}, 404)
 
 @app.route('/bancos/')
 def getBancos():
@@ -208,7 +226,10 @@ def new_banco():
         email = request.form.get('email')
         saldo = request.form.get('saldo')
 
-        conexao_db.novo_Banco(codigo_bancario, nome, agencia, conta, logradouro, bairro, municipio, estado, cep, telefone, email, saldo)
+        if conexao_db.novo_Banco(codigo_bancario, nome, agencia, conta, logradouro, bairro, municipio, estado, cep, telefone, email, saldo):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 
 @app.route('/bancos/<int:id>/', methods=['GET', 'POST'])
@@ -229,10 +250,13 @@ def getEditBanco(id):
         email = request.form.get('email')
         saldo = request.form.get('saldo')
 
-        conexao_db.editar_Banco(id, codigo_bancario, nome, agencia, conta, logradouro, bairro, municipio, estado, cep, telefone, email, saldo)
+        if conexao_db.editar_Banco(id, codigo_bancario, nome, agencia, conta, logradouro, bairro, municipio, estado, cep, telefone, email, saldo):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 
-@app.route('/banco/movimento_bancario/add')
+@app.route('/banco/movimento_bancario/add', methods=['POST'])
 def new_movimento_bancario():
     if request.method == 'POST':
         id_banco = request.form.get('id_banco')
@@ -240,7 +264,10 @@ def new_movimento_bancario():
         origem = request.form.get('origem')
         valor = request.form.get('valor')
 
-        conexao_db.nova_movimentacao_bancaria(id_banco, tipo, valor, origem)
+        if conexao_db.nova_movimentacao_bancaria(id_banco, tipo, valor, origem):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 
 @app.route('/banco/movimento_bancario/<int:id>/')
@@ -263,7 +290,10 @@ def new_nf():
         id_fornecedor = request.form.get('id_fornecedor')
         valor = request.form.get('valor')
 
-        conexao_db.novo_cabecalho_NF(numero, id_fornecedor, valor)
+        if conexao_db.novo_cabecalho_NF(numero, id_fornecedor, valor):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 
 @app.route('/nf/<int:id>/', methods=['GET'])
@@ -282,7 +312,10 @@ def new_nf_itens(id_nf):
         valor = request.form.get('valor')
         quantidade = request.form.get('quantidade')
 
-        conexao_db.novo_item_nf(tipo, id_nf, id_produto, quantidade, valor)
+        if conexao_db.novo_item_nf(tipo, id_nf, id_produto, quantidade, valor):
+            return make_response({}, 201)
+        else:
+            return make_response({}, 404)
 
 
 
@@ -294,15 +327,5 @@ def get_Itens_Nf(id):
 
 #create Database
 conexao_db.create_data_base()
-
-
-#conexao_db.novo_Produto("descricao",1,"UN","codigo_barras")
-#conexao_db.novo_Fornecedor("razao_social", "nome_fantasia", "cnpj", "IE", "logradouro", "bairro", "municipio", "PE", "cep", "telefone", "email")
-#conexao_db.novo_Cliente("nome", "cpf", "logradouro", "bairro", "municipio", "PE", "cep", "telefone", "email")
-#conexao_db.novo_estoque("descricao")
-#conexao_db.novo_saldo_inicial_estoque(1,1)
-#conexao_db.nova_movimentacao_estoque(1, 1, "S", 10)
-#conexao_db.novo_Banco("037", "nome", "0651", "conta", "logradouro", "bairro", "municipio", "PE", "cep", "telefone", "email", '0')
-#conexao_db.nova_movimentacao_bancaria(1, "Entrada", 10)
 
 app.run()

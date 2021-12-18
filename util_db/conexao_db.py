@@ -150,21 +150,21 @@ def novo_Produto(descricao, preco, un, codBarras):
 
 def novo_Banco(codigobancario,  nomebanco, agencia,  conta,  endereco, bairro, municipio, estado, cep, telefone,  email,  saldo):
     cursor = concect.cursor()
-    novoRegistro = "insert into banco(codigobancario, nomebanco, agencia, conta, endereco, bairro, municipio, estado, cep, telefone, email, saldo) values ('"+codigobancario+"', '"+nomebanco+"', '"+agencia+"', '"+conta+"', '"+endereco+"', '"+bairro+"', '"+municipio+"', '"+estado+"', '"+cep+"', '"+telefone+"', '"+email+"', '"+saldo+"') "
+    novoRegistro = "insert into banco(codigobancario, nomebanco, agencia, conta, endereco, bairro, municipio, estado, cep, telefone, email, saldo) values ('"+str(codigobancario)+"', '"+str(nomebanco)+"', '"+str(agencia)+"', '"+str(conta)+"', '"+endereco+"', '"+bairro+"', '"+municipio+"', '"+estado+"', '"+str(cep)+"', '"+str(telefone)+"', '"+email+"', '"+str(saldo)+"') "
     cursor.execute(novoRegistro)
     concect.commit()
     cursor.close()
 
 def novo_Cliente(nome,  cpf, logradouro, bairro, municipio, estado, cep, telefone,  email):
     cursor = concect.cursor()
-    novoRegistro = "insert into Cliente(nome, cpf,  logradouro, bairro, municipio, estado, cep, telefone, email) values ('"+nome+"', '"+cpf+"', '"+logradouro+"', '"+bairro+"', '"+municipio+"', '"+estado+"', '"+cep+"', '"+telefone+"', '"+email+"') "
+    novoRegistro = "insert into Cliente(nome, cpf,  logradouro, bairro, municipio, estado, cep, telefone, email) values ('"+nome+"', '"+str(cpf)+"', '"+logradouro+"', '"+bairro+"', '"+municipio+"', '"+estado+"', '"+str(cep)+"', '"+str(telefone)+"', '"+email+"') "
     cursor.execute(novoRegistro)
     concect.commit()
     cursor.close()
 
 def novo_Fornecedor(razao_social, nome_fantasia, cnpj, inscricao_estadual, logradouro, bairro, municipio, estado, cep, telefone,  email):
     cursor = concect.cursor()
-    novoRegistro = "insert into Fornecedor(razao_social, nome_fantasia, cnpj, inscricao_estadual,  logradouro, bairro, municipio, estado, cep, telefone, email) values ('"+razao_social+"', '"+nome_fantasia+"', '"+cnpj+"', '"+inscricao_estadual+"', '"+logradouro+"', '"+bairro+"', '"+municipio+"', '"+estado+"', '"+cep+"', '"+telefone+"', '"+email+"') "
+    novoRegistro = "insert into Fornecedor(razao_social, nome_fantasia, cnpj, inscricao_estadual,  logradouro, bairro, municipio, estado, cep, telefone, email) values ('"+razao_social+"', '"+nome_fantasia+"', '"+str(cnpj)+"', '"+inscricao_estadual+"', '"+logradouro+"', '"+bairro+"', '"+municipio+"', '"+estado+"', '"+str(cep)+"', '"+str(telefone)+"', '"+email+"') "
     cursor.execute(novoRegistro)
     concect.commit()
     cursor.close()
@@ -180,35 +180,35 @@ def novo_estoque(descricao):
 #Editar Cadastros
 def editar_User(id, usuario, senha, nivel_acesso):
     cursor = concect.cursor()
-    novoRegistro = "UPDATE Users SET usuario='"+usuario+"', senha='"+senha+"', nivel_acesso='"+nivel_acesso+"' where id="+id+""
+    novoRegistro = "UPDATE Users SET usuario='"+usuario+"', senha='"+senha+"', nivel_acesso='"+nivel_acesso+"' where id="+str(id)+""
     cursor.execute(novoRegistro)
     concect.commit()
     cursor.close()
 
 def editar_Produto(id, descricao, preco, un, codBarras):
     cursor = concect.cursor()
-    novoRegistro = "UPDATE produto SET descricao='"+descricao+"', preco="+str(preco)+", unidade_medida='"+un+"', codigo_barras='"+str(codBarras)+"' where id="+id+""
+    novoRegistro = "UPDATE produto SET descricao='"+descricao+"', preco="+float(preco)+", unidade_medida='"+un+"', codigo_barras='"+str(codBarras)+"' where id="+str(id)+""
     cursor.execute(novoRegistro)
     concect.commit()
     cursor.close()
 
 def editar_Banco(id, codigobancario,  nomebanco, agencia,  conta,  endereco, bairro, municipio, estado, cep, telefone,  email,  saldo):
     cursor = concect.cursor()
-    novoRegistro = "UPDATE banco SET codigobancario='"+codigobancario+"', nomebanco='"+nomebanco+"', agencia='"+agencia+"', conta='"+conta+"', endereco='"+endereco+"', bairro='"+bairro+"', municipio='"+municipio+"', estado='"+estado+"', cep='"+cep+"', telefone='"+telefone+"', email='"+email+"', saldo='"+str(saldo)+"' where id="+id+" "
+    novoRegistro = "UPDATE banco SET codigobancario='"+str(codigobancario)+"', nomebanco='"+nomebanco+"', agencia='"+str(agencia)+"', conta='"+str(conta)+"', endereco='"+endereco+"', bairro='"+bairro+"', municipio='"+municipio+"', estado='"+estado+"', cep='"+str(cep)+"', telefone='"+str(telefone)+"', email='"+email+"', saldo='"+str(saldo)+"' where id="+str(id)+" "
     cursor.execute(novoRegistro)
     concect.commit()
     cursor.close()
 
-def editar_Cliente(id, nome,  cpf, logradouro, bairro, municipio, estado, cep, telefone,  email,  saldo):
+def editar_Cliente(id, nome,  cpf, logradouro, bairro, municipio, estado, cep, telefone,  email):
     cursor = concect.cursor()
-    novoRegistro = "UPDATE Cliente SET nome='"+nome+"', cpf='"+cpf+"',  logradouro='"+logradouro+"', bairro='"+bairro+"', municipio='"+municipio+"', estado='"+estado+"', cep='"+cep+"', telefone='"+telefone+"', email='"+email+"', saldo='"+str(saldo)+"' where id="+id+""
+    novoRegistro = "UPDATE Cliente SET nome='"+nome+"', cpf='"+str(cpf)+"',  logradouro='"+logradouro+"', bairro='"+bairro+"', municipio='"+municipio+"', estado='"+estado+"', cep='"+str(cep)+"', telefone='"+str(telefone)+"', email='"+email+"'  where id="+str(id)+""
     cursor.execute(novoRegistro)
     concect.commit()
     cursor.close()
 
 def editar_Fornecedor(id, razao_social, nome_fantasia, cnpj, inscricao_estadual, logradouro, bairro, municipio, estado, cep, telefone,  email):
     cursor = concect.cursor()
-    novoRegistro = "UPDATE Fornecedor SET razao_social='"+razao_social+"', nome_fantasia='"+nome_fantasia+"', cnpj='"+cnpj+"', inscricao_estaudal='"+inscricao_estadual+"',  logradouro='"+logradouro+"', bairro='"+bairro+"', municipio='"+municipio+"', estado='"+estado+"', cep='"+cep+"', telefone='"+telefone+"', email='"+email+"' where  id="+id+""
+    novoRegistro = "UPDATE Fornecedor SET razao_social='"+razao_social+"', nome_fantasia='"+nome_fantasia+"', cnpj='"+str(cnpj)+"', inscricao_estaudal='"+str(inscricao_estadual)+"',  logradouro='"+logradouro+"', bairro='"+bairro+"', municipio='"+municipio+"', estado='"+estado+"', cep='"+str(cep)+"', telefone='"+str(telefone)+"', email='"+email+"' where  id="+str(id)+""
     cursor.execute(novoRegistro)
     concect.commit()
     cursor.close()
@@ -276,7 +276,7 @@ def alterar_saldo_bancario(id_banco, tipo, valor):
             return False
 
         cursor = concect.cursor()
-        cursor.execute("UPDATE banco SET saldo = "+novo_saldo+" WHERE id = "+id_banco+"")
+        cursor.execute("UPDATE banco SET saldo = "+str(novo_saldo)+" WHERE id = "+str(id_banco)+"")
         concect.commit()
         cursor.close()
         return True
@@ -285,7 +285,7 @@ def alterar_saldo_bancario(id_banco, tipo, valor):
 def nova_movimentacao_bancaria(id_banco, tipo, valor, origem=" "):
     if alterar_saldo_bancario(id_banco, tipo, valor) is True:
         cursor = concect.cursor()
-        cursor.execute("insert into movimento_bancaria(origem,  tipo,  banco, valor, dataMovimento) values ('" + origem + "', '"+tipo+"', "+id_banco+", "+valor+", CURRENT_DATE) ")
+        cursor.execute("insert into movimento_bancaria(origem,  tipo,  banco, valor, dataMovimento) values ('" + origem + "', '"+tipo+"', "+str(id_banco)+", "+str(valor)+", CURRENT_DATE) ")
         concect.commit()
         cursor.close()
         return True
@@ -295,7 +295,7 @@ def nova_movimentacao_bancaria(id_banco, tipo, valor, origem=" "):
 def novo_cabecalho_NF(numero,  id_fornecedor, valor):
     if get_fornecedor_by_id(id_fornecedor):
         cursor = concect.cursor()
-        cursor.execute("insert into nota_fiscal(numero, fornecedor, valor ,dataEntrada) values ('" + str(numero) + "', '"+id_fornecedor+"', "+valor+", CURRENT_DATE) ")
+        cursor.execute("insert into nota_fiscal(numero, fornecedor, valor ,dataEntrada) values ('" + str(numero) + "', '"+str(id_fornecedor)+"', "+str(valor)+", CURRENT_DATE) ")
         concect.commit()
         cursor.close()
         return True
@@ -305,7 +305,7 @@ def novo_item_nf(tipo, id_cabecalho,id_produto, id_estoque, quantidade,  valor):
     if get_produto_by_id(id_produto):
         if get_NF_by_id(id_cabecalho):
             cursor = concect.cursor()
-            cursor.execute("insert into item_nf(tipo, origem, produto, estoque, quantidade, valor ,dataEntrada) values ('" + tipo + "', '"+id_cabecalho+"', '"+id_produto+"','"+id_estoque+"' , '"+quantidade+"', "+valor+",CURRENT_DATE) ")
+            cursor.execute("insert into item_nf(tipo, origem, produto, estoque, quantidade, valor ,dataEntrada) values ('" + tipo + "', '"+str(id_cabecalho)+"', '"+str(id_produto)+"','"+str(id_estoque)+"' , '"+str(quantidade)+"', "+str(valor)+",CURRENT_DATE) ")
             concect.commit()
             cursor.close()
             nova_movimentacao_estoque(id_estoque, 'E', quantidade, "NF:"+str(id_cabecalho))
@@ -315,12 +315,12 @@ def novo_item_nf(tipo, id_cabecalho,id_produto, id_estoque, quantidade,  valor):
 def nova_venda(id_cliente, total ):
     if get_cliente_by_id(id_cliente):
         cursor = concect.cursor()
-        cursor.execute("insert into venda(cliente, total ,data) values ('" + id_cliente + "', '"+total+"', CURRENT_DATE) ")
+        cursor.execute("insert into venda(cliente, total ,data) values ('" + str(id_cliente) + "', '"+str(total)+"', CURRENT_DATE) ")
         concect.commit()
         cursor.close()
     else:
         cursor = concect.cursor()
-        cursor.execute("insert into venda(total ,data) values ('"+total+"', CURRENT_DATE) ")
+        cursor.execute("insert into venda(total ,data) values ('"+str(total)+"', CURRENT_DATE) ")
         concect.commit()
         cursor.close()
     return True
@@ -329,7 +329,7 @@ def novo_item_venda(id_venda,id_produto,id_estoque, quantidade,  preco):
     if get_produto_by_id(id_produto):
         if get_Venda_by_id(id_venda):
             cursor = concect.cursor()
-            cursor.execute("insert into item_venda(produto, estoque, quantidade, preco ,venda) values ('" + id_produto + "','"+id_estoque+"' ,'"+quantidade+"', "+preco+", "+id_venda+") ")
+            cursor.execute("insert into item_venda(produto, estoque, quantidade, preco ,venda) values ('" + str(id_produto) + "','"+str(id_estoque)+"' ,'"+str(quantidade)+"', "+str(preco)+", "+str(id_venda)+") ")
             concect.commit()
             cursor.close()
             nova_movimentacao_estoque(id_estoque, 'S', quantidade, "Venda:"+str(id_venda))
